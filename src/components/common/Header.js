@@ -7,6 +7,7 @@ import cartContext from '../../contexts/cart/cartContext';
 import SearchBar from './SearchBar';
 import AccountForm from '../form/AccountForm';
 import { isAuthenticated, logout, getUsername} from '../../services/authService';
+import axios from 'axios';
 
 const Header = () => {
     const { toggleForm, toggleSearch } = useContext(commonContext);
@@ -39,12 +40,36 @@ const Header = () => {
 
     const cartQuantity = cartItems.length;
 
-    const handleCartClick = () => {
+    const handleCartClick = async () => {
         if (!isLoggedIn) {
             toggleForm(true);
             return;
         }
-        navigate('/cart');
+        const token = localStorage.getItem('jwt_token');  // Retrieve the JWT token
+
+    if (!token) {
+        console.error('No token found. Please log in.');
+        return;
+    }
+
+        try {
+            // Make an API request to check the cart or perform some action
+            const response = await axios.get('http://127.0.0.1:8000/api/cart-items/', {
+                headers: {
+                    Authorization: `Bearer ${token}`,  // Include the JWT token in the header
+                }
+            });
+
+            // Handle the response and navigate to the cart page if successful
+            if (response.status === 200) {
+                navigate('/cart');
+            } else {
+                // Handle other status codes or errors
+                console.error('Failed to fetch cart information');
+            }
+        } catch (error) {
+            console.error('Error fetching cart:', error);
+        }
     };
 
     const handleLogout = () => {
@@ -71,6 +96,32 @@ const Header = () => {
                                 </span>
                                 <div className="tooltip">Search</div>
                             </div>
+                            <div
+    className="shop_action"
+    style={{
+        display: 'inline-block',
+        margin: '0 10px', // Adjust margins as needed
+        padding: '5px',
+    }}
+>
+    <Link to="/products">
+        <button
+            type="button"
+            className="shop_button"
+            style={{
+                backgroundColor: '#007bff',
+                color: '#ffff',
+                border: 'none',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+            }}
+        >
+            Shop now
+        </button>
+    </Link>
+</div>
 
                             <div className="cart_action" onClick={handleCartClick}>
                                 <AiOutlineShoppingCart />
@@ -108,18 +159,28 @@ const Header = () => {
 
                                     <div className="separator"></div>
                                     <ul>
-                                        {dropdownMenu.map((item) => (
-                                            <li key={item.id}>
-                                                <Link to={item.path}>{item.link}</Link>
-                                            </li>
-                                        ))}
-                                    </ul>
+    {dropdownMenu.map((item) => (
+        <li key={item.id}>
+            <Link to={item.path}>{item.link}</Link>
+        </li>
+    ))}
+</ul>
                                 </div>
                             </div>
 
                             <div className="admin_action">
                                 <Link to="/adminlogin">
-                                    <button type="button" className="admin_button">
+                                    <button type="button"
+            className="shop_button"
+            style={{
+                backgroundColor: '#007bff',
+                color: '#ffff',
+                border: 'none',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+            }}>
                                         Admin
                                     </button>
                                 </Link>

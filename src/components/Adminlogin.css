@@ -2,9 +2,11 @@
     max-width: 400px;
     margin: 0 auto;
     padding: 20px;
+    color: red;
     border: 1px solid #ccc;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(243, 196, 6, 0.1);
+    background-color: #251b2c;
 }
 
 .admin-login h2 {
@@ -14,6 +16,7 @@
 
 .form-group {
     margin-bottom: 15px;
+    color: rgb(2, 198, 71);
 }
 
 .form-group label {
@@ -24,6 +27,7 @@
 .form-group input {
     width: 100%;
     padding: 10px;
+    background-color: rgb(187, 196, 215);
     border: 1px solid #ccc;
     border-radius: 4px;
 }
@@ -37,7 +41,7 @@ button {
     width: 100%;
     padding: 10px;
     background-color: #007bff;
-    color: white;
+    color: rgb(173, 26, 26);
     border: none;
     border-radius: 4px;
     cursor: pointer;

@@ -11,12 +11,15 @@ const CartItem = ({ id, quantity }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const { removeItem } = useContext(cartContext);
+    
 
     useEffect(() => {
         const fetchProductDetails = async () => {
             try {
                 const response = await axios.get(`http://127.0.0.1:8000/api/products/${id}/`);
+                console.log("ssssss",)
                 setProduct(response.data);
+
                 setLoading(false);
             } catch (err) {
                 console.error('Error fetching product details:', err);

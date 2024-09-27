@@ -138,3 +138,42 @@ class CartItemSerializer(serializers.ModelSerializer):
         model = CartItem
         fields = ['id', 'user', 'product', 'quantity', 'created_at', 'updated_at']
         read_only_fields = ['id', 'created_at', 'updated_at']
+
+
+ # add the fields you want
+
+class CartItemSerializer2(serializers.ModelSerializer):
+    product = ProductSerializer()  # Nested serializer
+
+    class Meta:
+        model = CartItem
+        fields = ['id', 'quantity', 'product']
+
+# serializers.py
+from rest_framework import serializers
+from .models import Order, Wishlist, GiftCard, SavedCard, SavedAddress
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = '__all__'
+
+class WishlistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Wishlist
+        fields = '__all__'
+
+class GiftCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GiftCard
+        fields = '__all__'
+
+class SavedCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SavedCard
+        fields = '__all__'
+
+class SavedAddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SavedAddress
+        fields = '__all__'

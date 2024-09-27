@@ -21,7 +21,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import Product
 from .serializers import ProductSerializer
-
+from .serializers import CartItemSerializer2
 import logging
 
 logger = logging.getLogger(__name__)
@@ -177,3 +177,61 @@ class CartItemRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return CartItem.objects.filter(user=self.request.user)
+
+
+class CartItemList(generics.ListAPIView):
+    serializer_class = CartItemSerializer2
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user_id = self.kwargs['user_id']
+        return CartItem.objects.filter(user_id=user_id).select_related('product')
+    
+
+# views.py
+from rest_framework import viewsets
+from .models import Order, Wishlist, GiftCard, SavedCard, SavedAddress
+from .serializers import OrderSerializer, WishlistSerializer, GiftCardSerializer, SavedCardSerializer, SavedAddressSerializer
+class GiftCardListCreateView(generics.ListCreateAPIView):
+    queryset = GiftCard.objects.all()
+    serializer_class = GiftCardSerializer
+
+class GiftCardRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = GiftCard.objects.all()
+    serializer_class = GiftCardSerializer
+
+# Order View
+class OrderListCreateView(generics.ListCreateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+
+class OrderRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+
+# SavedAddress View
+class SavedAddressListCreateView(generics.ListCreateAPIView):
+    queryset = SavedAddress.objects.all()
+    serializer_class = SavedAddressSerializer
+
+class SavedAddressRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = SavedAddress.objects.all()
+    serializer_class = SavedAddressSerializer
+
+# SavedCard View
+class SavedCardListCreateView(generics.ListCreateAPIView):
+    queryset = SavedCard.objects.all()
+    serializer_class = SavedCardSerializer
+
+class SavedCardRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = SavedCard.objects.all()
+    serializer_class = SavedCardSerializer
+
+# Wishlist View
+class WishlistListCreateView(generics.ListCreateAPIView):
+    queryset = Wishlist.objects.all()
+    serializer_class = WishlistSerializer
+
+class WishlistRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Wishlist.objects.all()
+    serializer_class = WishlistSerializer

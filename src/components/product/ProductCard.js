@@ -194,7 +194,7 @@ const ProductCard = (props) => {
 
         } catch (error) {
             console.error('Error adding item to cart:', error.response || error);
-            alert('Failed to add item to cart.');
+            alert('Failed to add item to cart.Product is Already in Cart');
         }
     };
 
